@@ -1,4 +1,4 @@
-package pl.jkan.pp5.books.sales;
+package pl.jkan.pp5.books.sales.products;
 
 
 import java.util.ArrayList;
@@ -10,9 +10,9 @@ public class InMemoryProductCatalog implements ProductCatalog {
     private List<Product> availableProducts = new ArrayList<>();
 
     @Override
-    public Optional<Product> load(Long productId) {
+    public Optional<Product> load(String productId) {
         return availableProducts.stream()
-                .filter(product -> product.getId() == productId)
+                .filter(product -> product.getId().equals(productId))
                 .findFirst();
     }
 

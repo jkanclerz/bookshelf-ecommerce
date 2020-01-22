@@ -2,6 +2,11 @@ package pl.jkan.pp5.books.sales;
 
 import org.junit.Before;
 import org.junit.Test;
+import pl.jkan.pp5.books.sales.basket.Basket;
+import pl.jkan.pp5.books.sales.basket.InMemoryBasketStorage;
+import pl.jkan.pp5.books.sales.products.InMemoryProductCatalog;
+import pl.jkan.pp5.books.sales.products.Product;
+import pl.jkan.pp5.books.support.modeling.Identifier;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
@@ -10,7 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class SalesTest {
 
-    private final Long PRODUCT_ID = 1000L;
+    private final String PRODUCT_ID = Identifier.byString("test-product");
     private String currentUserId;
     private InMemoryProductCatalog productCatalog;
 
@@ -30,7 +35,7 @@ public class SalesTest {
         assertThat(basket.productsCount()).isEqualTo(1);
     }
 
-    private void thereIsProductAvailableInCatalog(Long productId) {
+    private void thereIsProductAvailableInCatalog(String productId) {
         this.productCatalog.setAvailableProducts(Arrays.asList(new Product(productId, BigDecimal.valueOf(10.0))));
     }
 
@@ -40,10 +45,13 @@ public class SalesTest {
 
     @Test
     public void itAllowAddProductToBasketBy2SeparatedClients() {
+        thereIsProductAvailableInCatalog(PRODUCT_ID);
+
         thereIsClientIdentifiedWith("client_1");
         SalesFacade salesFacade = therIsSalesFacade();
         salesFacade.addToBasket(PRODUCT_ID);
         Basket basketOwnedBy1 = salesFacade.getBasket();
+
 
         thereIsClientIdentifiedWith("client_2");
         salesFacade.addToBasket(PRODUCT_ID);

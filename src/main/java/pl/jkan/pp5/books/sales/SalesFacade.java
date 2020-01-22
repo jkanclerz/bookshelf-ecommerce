@@ -1,9 +1,11 @@
 package pl.jkan.pp5.books.sales;
 
 
+import pl.jkan.pp5.books.sales.basket.Basket;
+import pl.jkan.pp5.books.sales.basket.BasketStorage;
+import pl.jkan.pp5.books.sales.products.Product;
+import pl.jkan.pp5.books.sales.products.ProductCatalog;
 import pl.jkan.pp5.books.sales.exceptions.NoSuchProductException;
-
-import java.util.Properties;
 
 public class SalesFacade {
     private SystemUserContext systemUserContext;
@@ -16,7 +18,7 @@ public class SalesFacade {
         this.productCatalog = productCatalog;
     }
 
-    public void addToBasket(Long productId) {
+    public void addToBasket(String productId) {
         String currentClientId = systemUserContext.getCurrentUserId();
 
         Basket basket = basketStorage.loadForUser(currentClientId).orElse(
@@ -27,7 +29,7 @@ public class SalesFacade {
 
         basket.addProduct(product);
 
-        basketStorage.save(basket);
+        basketStorage.save(currentClientId, basket);
     }
 
     public Basket getBasket() {
@@ -38,4 +40,6 @@ public class SalesFacade {
 
         return basket;
     }
+
+
 }
