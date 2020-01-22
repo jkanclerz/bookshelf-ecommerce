@@ -27,6 +27,8 @@ public class Product {
     BigDecimal price;
     Boolean published;
 
+    String cover;
+
     public ProductData toData() {
         return new ProductData(id, name, price);
     }
