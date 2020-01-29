@@ -46,7 +46,6 @@ function initializeBasket(quantity, total) {
 
 function handleAddToBasket(productId) {
     return new Promise((resolve, reject) => {
-
         console.log(`Going to add product with id ${productId}`);
         setTimeout(() => {
             resolve("OK")
@@ -78,12 +77,17 @@ function getCurrentOffer() {
 (async () => {
     const productsListEl = document.querySelector('.products__highlights');
     let products = await getProducts();
+
     products
-    .map(p => createProductComponent(p))
-    .map(productEl => initializeAddToBasketHandler(productEl))
-    .forEach((productEl) => {
-        productsListEl.appendChild(productEl);
-    })
+        .map(p => createProductComponent(p))
+        .map(productEl => initializeAddToBasketHandler(productEl))
+        .forEach((productEl) => {
+            productsListEl.appendChild(productEl);
+        })
+
+
+
+
 
     const basketContainerEl = document.querySelector('.basket__container');
 
